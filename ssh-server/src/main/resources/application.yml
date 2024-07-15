@@ -1,0 +1,69 @@
+# spring:
+#   # 初始化数据库
+#   sql:
+#     init:
+#       mode: always
+#       schema-locations:
+#         - classpath:db/init.sql
+
+#   # 数据库配置
+#   datasource:
+#     # 数据库访问配置, 使用druid数据源(默认数据源是HikariDataSource)
+#     type: com.alibaba.druid.pool.DruidDataSource
+
+#     driver-class-name: com.mysql.cj.jdbc.Driver
+#     url: jdbc:mysql://localhost:3306/testdb?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+#     username: admin
+#     password: pass
+
+#     # 连接池配置
+#     druid:
+#       driver-class-name: com.mysql.cj.jdbc.Driver
+#       url: jdbc:mysql://localhost:3306/testdb?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+#       username: admin
+#       password: pass
+
+#       # 连接池配置：大小，最小，最大
+#       initial-size: 5
+#       min-idle: 5
+#       max-active: 20
+
+#       # 连接等待超时时间
+#       max-wait: 30000
+
+#       # 配置检测可以关闭的空闲连接，间隔时间
+#       time-between-eviction-runs-millis: 60000
+
+#       # 配置连接在池中的最小生存时间
+#       min-evictable-idle-time-millis: 300000
+#       # 检测连接是否有，有效得select语句
+#       validation-query: select '1' from dual
+#       # 申请连接的时候检测，如果空闲时间大于time-between-eviction-runs-millis，执行validationQuery检测连接是否有效，建议配置为true，不影响性能，并且保证安全性。
+#       test-while-idle: true
+#       # 申请连接时执行validationQuery检测连接是否有效，建议设置为false，不然会会降低性能
+#       test-on-borrow: false
+#       # 归还连接时执行validationQuery检测连接是否有效，建议设置为false，不然会会降低性能
+#       test-on-return: false
+
+#   thymeleaf:
+#     prefix: classpath:/templates/pages
+#     suffix: .html
+
+# mybatis:
+#   # 匹配sql语句的映射文件的位置，classpath代表在resources下
+#   mapper-locations: classpath:mybatis/mapper/*.xml
+#   # 以下两个配置可以省略，然后在mapper映射文件中配置也是可以的。
+#   # 使用type-aliases-package中指定entity扫描包类让mybatis自定扫描到自定义的entity
+#   # type-aliases-package: com.example.entity
+#   configuration:
+#     # 开启驼峰uName自动映射到u_name
+#     map-underscore-to-camel-case: true
+
+applcation:
+  connection:
+    ssh:
+      default-host: 0.0.0.0
+      default-port: 22
+      idle-timeout: 240000
+      auth-timeout: 60000
+      pool-size: 24
