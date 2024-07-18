@@ -1,6 +1,13 @@
 package one.iolab.app.iostreamwrapper;
 
+import java.io.InputStream;
+
 public class ByteProviderNullImpl implements ByteProvider {
+
+    public InputStream getStream() {
+        return null;
+    }
+
     public byte[] getByte() {
         return null;
     }

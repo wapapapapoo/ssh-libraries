@@ -7,6 +7,10 @@ public class ByteConsumerImpl implements ByteConsumer {
 
     private OutputStream out;
 
+    public OutputStream getStream() {
+        return this.out;
+    }
+
     public ByteConsumerImpl(OutputStream out) {
         this.out = out;
     }

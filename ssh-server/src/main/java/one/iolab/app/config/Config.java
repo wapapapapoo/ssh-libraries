@@ -1,6 +1,7 @@
 package one.iolab.app.config;
 
 import java.time.Duration;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import lombok.Data;
 import lombok.Getter;
@@ -24,13 +25,14 @@ public class Config {
     private String defaultIp = "0.0.0.0";
     private short defaultPort = 22;
 
-    private int initShellPoolSize = 10;
-    private int initScpPoolSize = 10;
+    private int initPoolSize = 3;
 
     private String localURI = "ssh.iolab.one";
     private int localPort = 22;
 
     private String adminUserName = "admin";
     private String adminPassword = "pass";
+
+    public static AtomicBoolean isRunning = new AtomicBoolean(true);
 
 }

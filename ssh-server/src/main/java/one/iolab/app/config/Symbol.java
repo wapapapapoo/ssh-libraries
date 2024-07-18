@@ -9,8 +9,9 @@ public final class Symbol {
         TUI_SHELL(1),
         SCP(2),
         SCP_PLUS(3),
-        CLIENT(4),
-        ADMIN(5),
+        SFTP(4),
+        CLIENT(5),
+        ADMIN(6),
         ;
 
         int strategy;
@@ -36,9 +37,12 @@ public final class Symbol {
                     desc += "SCP_PLUS";
                     break;
                 case 4:
-                    desc += "CLIENT";
+                    desc += "SFTP";
                     break;
                 case 5:
+                    desc += "CLIENT";
+                    break;
+                case 6:
                     desc += "ADMIN";
                     break;
                 default:

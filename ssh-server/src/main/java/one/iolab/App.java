@@ -1,19 +1,20 @@
 package one.iolab;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.sshd.server.SshServer;
-import org.apache.sshd.server.auth.keyboard.KeyboardInteractiveAuthenticator;
+import org.apache.sshd.server.subsystem.SubsystemFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 import one.iolab.app.config.Config;
-import one.iolab.app.routers.CommandRouter;
-import one.iolab.app.routers.SSHShellRouter;
+import one.iolab.app.shellrouters.ProcessorFactory;
 import one.iolab.app.sshdconfig.MyKeyPairProvider;
 import one.iolab.app.sshdconfig.MyKeyboardInteractiveAuthenticator;
-import one.iolab.app.sshdconfig.MyPasswordAuthenticator;
-import one.iolab.app.sshdconfig.MyPreAuthenticator;
+import one.iolab.app.subsystems.SFTPSubsystemFactory;
 
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class }) // 暂时没有数据源
 public class App implements CommandLineRunner {
@@ -49,14 +50,17 @@ public class App implements CommandLineRunner {
 
         sshd.setKeyboardInteractiveAuthenticator(new MyKeyboardInteractiveAuthenticator());
 
-        // ssh server
-        SSHShellRouter shellRouter = new SSHShellRouter();
-        sshd.setShellFactory(shellRouter);
-        // sshd.setShellFactory(new ProcessShellFactory("cmd", "-i"));
+        // shell
+        ProcessorFactory processorFactory = new ProcessorFactory();
+        sshd.setShellFactory(processorFactory);
+        sshd.setCommandFactory(processorFactory);
 
-        // command
-        CommandRouter commandRouter = new CommandRouter();
-        sshd.setCommandFactory(commandRouter);
+        // subsystems
+        List<SubsystemFactory> subsystemFactories = new ArrayList<>();
+        subsystemFactories.add(new SFTPSubsystemFactory());
+        sshd.setSubsystemFactories(subsystemFactories);
+
+        // sshd.setShellFactory(new ProcessShellFactory("cmd", "-i"));
 
         sshd.start();
     }

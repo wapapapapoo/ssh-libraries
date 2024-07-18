@@ -1,6 +1,7 @@
 package one.iolab.app.iostreamwrapper;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @interface ByteProvider
@@ -8,6 +9,8 @@ import java.io.IOException;
  * @brief byte provider between drivers and adapters
  */
 public interface ByteProvider {
+
+    InputStream getStream();
 
     /**
      * @brief get a byte from input stream

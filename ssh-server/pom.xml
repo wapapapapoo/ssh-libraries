@@ -12,8 +12,8 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -64,6 +64,12 @@
       <version>2.13.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.sshd</groupId>
+      <artifactId>sshd-sftp</artifactId>
+      <version>2.13.1</version>
+    </dependency>
+
     <!-- db -->
 
     <!-- <dependency>
@@ -98,6 +104,12 @@
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
       <version>2.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-coroutines-core</artifactId>
+      <version>1.8.1</version>
     </dependency>
 
   </dependencies>
@@ -162,6 +174,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
+
+        <configuration>
+          <Dfile.encoding>UTF-8</Dfile.encoding>
+        </configuration>
+
         <executions>
           <!-- 替换 default-compile, 因为它会被 maven 特别处理 -->
           <execution>

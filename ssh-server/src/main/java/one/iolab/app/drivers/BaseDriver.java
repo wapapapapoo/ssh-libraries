@@ -1,16 +1,14 @@
 package one.iolab.app.drivers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.sshd.server.Environment;
-import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.channel.ChannelSession;
+import org.slf4j.Logger;
 
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import one.iolab.app.adapters.Adapter;
+import one.iolab.app.adapters.AdapterImpl;
 import one.iolab.app.iostreamwrapper.ByteConsumer;
 import one.iolab.app.iostreamwrapper.ByteConsumerNullImpl;
 import one.iolab.app.iostreamwrapper.ByteProvider;
@@ -19,7 +17,8 @@ import one.iolab.app.iostreamwrapper.ByteProviderNullImpl;
 @Data
 @Getter
 @Setter
-public abstract class BaseDriver implements Runnable {
+public abstract class BaseDriver<Arg_t> implements Runnable {
+    public static final String driverName = "AnonymousDriver";
 
     protected ByteProvider cin = new ByteProviderNullImpl();
     protected ByteConsumer cout = new ByteConsumerNullImpl();
@@ -27,20 +26,16 @@ public abstract class BaseDriver implements Runnable {
 
     protected Environment env;
     protected ChannelSession channel = null;
-    protected ExitCallback exitCallback;
     protected Thread thread = null;
 
-    protected Map<String, Object> argv = new HashMap<String, Object>();
-
-    protected String driverName = "AnonymousDriver";
+    protected Arg_t argv = null;
     protected Number processId = -1;
 
     protected Adapter adapter = null;
+    protected AdapterImpl<? extends BaseDriver<Arg_t>, Arg_t>.Callback callback;
+
+    protected Logger logger = null;
 
     public abstract void run();
 
-    // callback
-    public void shutdown() {
-        // do nothing...
-    }
 }

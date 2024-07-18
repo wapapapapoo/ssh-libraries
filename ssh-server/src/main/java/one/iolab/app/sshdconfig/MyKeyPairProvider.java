@@ -88,7 +88,7 @@ public class MyKeyPairProvider implements KeyPairProvider {
             PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
             PrivateKey privateKey = java.security.KeyFactory.getInstance("RSA").generatePrivate(privateKeySpec);
 
-            // 创建KeyPair对象（这里实际上是基于已有的公钥和私钥来"组装"一个KeyPair对象）
+            // 创建KeyPair对象
             return new KeyPair(publicKey, privateKey);
 
         } catch (InvalidKeySpecException e) {

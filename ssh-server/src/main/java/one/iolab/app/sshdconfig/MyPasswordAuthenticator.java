@@ -30,7 +30,7 @@ public class MyPasswordAuthenticator implements PasswordAuthenticator {
             return false;
         }
 
-        logger.info("Received Connection (Strategy {}): {}:{}@{}:{}",
+        logger.info("PasswordAuthenticator: Received Connection (Strategy {}): {}:{}@{}:{}",
                 session.getAttribute(Symbol.SESSION_PROCESS_STRATEGY).toString(),
                 username,
                 password,

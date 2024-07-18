@@ -53,6 +53,8 @@ public class MyKeyboardInteractiveAuthenticator
         try {
             session.disconnect(SshConstants.SSH2_DISCONNECT_HOST_AUTHENTICATION_FAILED, message);
         } catch (IOException e) {
+
+        } finally {
             session.close(true);
         }
     }

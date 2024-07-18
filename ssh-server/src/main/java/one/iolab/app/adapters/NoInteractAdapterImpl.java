@@ -8,12 +8,23 @@ import java.io.OutputStream;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.channel.ChannelSession;
+import org.apache.sshd.server.session.ServerSession;
 
 public class NoInteractAdapterImpl implements Adapter {
     private byte[][] message;
 
     private OutputStream out;
     private ExitCallback callback;
+
+    private ChannelSession channel;
+
+    public ChannelSession getChannel() {
+        return this.channel;
+    }
+
+    public ServerSession getSession() {
+        return this.channel.getSession();
+    }
 
     // private Logger logger;
     private State state = State.NULL;
@@ -32,24 +43,28 @@ public class NoInteractAdapterImpl implements Adapter {
 
         try {
             for (byte[] msg : this.message) {
+                this.state = State.BLOCKED;
                 this.out.write(msg, 0, msg.length);
+                this.state = State.RUNNING;
             }
+            this.state = State.BLOCKED;
             this.out.flush();
+            this.state = State.RUNNING;
         } catch (IOException e) {
 
         }
 
-        this.state = State.INTED;
+        this.state = State.STOPED;
         this.callback.onExit(1, "exited immediately");
     }
 
     @Override
     public void destroy(ChannelSession channel) throws Exception {
         channel.close();
-        this.state = State.DESTROY;
+        this.state = State.STOPED;
     }
 
-    public void shutdown() {
+    public void interrupt(int signal, Object arg) {
     }
 
     public NoInteractAdapterImpl(byte[]... message) {

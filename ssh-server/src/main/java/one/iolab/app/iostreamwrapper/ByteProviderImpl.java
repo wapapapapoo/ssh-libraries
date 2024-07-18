@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 import org.apache.sshd.common.channel.exception.SshChannelClosedException;
+import org.slf4j.LoggerFactory;
 
 public class ByteProviderImpl implements ByteProvider {
     private int bufferSize = 1024;
@@ -14,6 +15,10 @@ public class ByteProviderImpl implements ByteProvider {
     private byte[] buffer = new byte[this.bufferSize];
     private int bufferPtr = 0;
     private boolean closed = false;
+
+    public InputStream getStream() {
+        return this.in;
+    }
 
     public ByteProviderImpl(InputStream in) {
         this.in = in;
@@ -55,6 +60,7 @@ public class ByteProviderImpl implements ByteProvider {
         }
 
         if (this.bufferPtr < this.currentFrameSize) {
+            LoggerFactory.getLogger(getClass()).info("<{}>", this.buffer[this.bufferPtr]);
             return new byte[] { this.buffer[this.bufferPtr++] };
         } else if (block) {
             this.receive();
