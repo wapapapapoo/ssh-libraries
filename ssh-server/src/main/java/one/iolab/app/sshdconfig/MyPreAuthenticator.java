@@ -40,9 +40,9 @@ public class MyPreAuthenticator implements PreAuthenticator {
                 addPrompt.add(TextBanners.tuiWelcomeBanner());
                 return true;
 
-            case "nofeedback":
+            case "text":
                 session.setAttribute(Symbol.SESSION_PROCESS_STRATEGY, PROCESS_STRATEGY.TEXT_SHELL);
-                addPrompt.add(TextBanners.nofeedbackWelcomeBanner());
+                addPrompt.add(TextBanners.textWelcomeBanner());
                 return true;
 
             case "scp":
@@ -109,8 +109,8 @@ class TextBanners {
 
                 欢迎访问 IO 社公共文库。
                 请确保您的终端尺寸不小于 120x30，接收 UTF-8 编码的文本，并支持 ANSI 控制
-                序列。若您的终端不符合条件，请使用 nofeedback 版：
-                    ssh nofeedback@%s -p %d
+                序列。若您的终端不符合条件，请使用 text 版：
+                    ssh text@%s -p %d
                 您可以使用 help 获取帮助，键入`^C`退出。
                 ------------------------------------------------------------------------
                 Press any key to continue...                                按任意键继续
@@ -119,7 +119,7 @@ class TextBanners {
                 Config.init.getLocalPort());
     }
 
-    public static String nofeedbackWelcomeBanner() {
+    public static String textWelcomeBanner() {
         return String.format(welcomeBanner() + """
 
                 欢迎访问 IO 社公共文库。
@@ -156,7 +156,7 @@ class TextBanners {
                 终端:
                     ssh shell@%s -p %d
                 没有额外反馈的终端:
-                    ssh nofeedback@%s -p %d
+                    ssh text@%s -p %d
                 scp:
                     scp -P %d scp@%s:<remote file> <local file>
                     scp -r -P %d scp@%s:<remote dir> <local dir>

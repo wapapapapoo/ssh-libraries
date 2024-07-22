@@ -91,14 +91,7 @@ public class SCPProviderImpl(input: ByteProvider, output: ByteConsumer, interrup
         val octModeStr = mode.toString(8)
 
         val line: ByteArray =
-                ("C" +
-                                "0".repeat(4 - octModeStr.length) +
-                                octModeStr +
-                                " " +
-                                size.toString(10) +
-                                " " +
-                                name +
-                                "\n")
+                ("C${ "0".repeat(4 - octModeStr.length) }${ octModeStr } ${ size.toString(10) } ${ name }\n")
                         .toByteArray(StandardCharsets.UTF_8)
 
         try {
@@ -177,6 +170,8 @@ public class SCPProviderImpl(input: ByteProvider, output: ByteConsumer, interrup
     }
 
     public fun rid(): SCPProviderImpl {
+        LoggerFactory.getLogger("debug").info("exit dir")
+
         awaitIfAutoAwait()
         this.output.accept("E\n".toByteArray())
         this.requireAwait = true
@@ -200,10 +195,16 @@ public class SCPProviderImpl(input: ByteProvider, output: ByteConsumer, interrup
         return this
     }
 
-    public fun exit(): SCPProviderImpl? {
+    public fun exit(code: Response = Response.OK, msg: String = ""): SCPProviderImpl? {
+        LoggerFactory.getLogger("debug").info("exit dir")
+
         awaitIfAutoAwait()
-        this.output.accept(ByteArray(1) { 0 })
-        this.requireAwait = true
+        this.output.accept(ByteArray(1) { code.toByte() })
+        if (code != Response.OK) {
+            this.output.accept(msg.toByteArray())
+            this.output.accept("\n".toByteArray())
+        }
+        this.requireAwait = false
         return null
     }
 
